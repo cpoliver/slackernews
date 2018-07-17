@@ -9,6 +9,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
+import './index.css';
+
 const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
 
 const client = new ApolloClient({
