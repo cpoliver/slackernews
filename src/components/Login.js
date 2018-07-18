@@ -22,7 +22,7 @@ class Login extends Component {
             },
         });
 
-        this.saveUserData(result.data.login);
+        this.saveUserData(result.data.login.token);
     };
 
     signup = async () => {
@@ -36,12 +36,12 @@ class Login extends Component {
             },
         });
 
-        this.saveUserData(result.data.signup);
+        this.saveUserData(result.data.signup.token);
     };
 
     confirm = async () => {
-        if (this.state.login) this.login();
-        if (!this.state.login) this.signup();
+        if (this.state.login) await this.login();
+        if (!this.state.login) await this.signup();
 
         this.props.history.push('/');
     };
