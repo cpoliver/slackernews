@@ -5,9 +5,17 @@ import gql from 'graphql-tag';
 import Link from './Link';
 
 class LinkList extends Component {
-    voteForLink = async () => {
-        // TODO: implement
+    updateCacheAfterVote = (store, createVote, linkId) => {
+        const data = store.readQuery({ query: FEED_QUERY });
+        const votedLink = data.feed.links.find(link => link.id === linkId);
+
+        votedLink.votes = createVote.link.votes;
+        store.writeQuery({ query: FEED_QUERY, data });
     };
+
+    renderLink = (link, i) => (
+        <Link key={link.id} index={i} link={link} updateStoreAfterVote={this.updateCacheAfterVote} />
+    );
 
     render() {
         if (this.props.feedQuery && this.props.feedQuery.loading) {
@@ -20,7 +28,7 @@ class LinkList extends Component {
 
         const { links } = this.props.feedQuery.feed;
 
-        return <div>{links.map(link => <Link key={link.id} link={link} />)}</div>;
+        return <div>{links.map(this.renderLink)}</div>;
     }
 }
 
@@ -32,6 +40,16 @@ const FEED_QUERY = gql`
                 createdAt
                 url
                 description
+                postedBy {
+                    id
+                    name
+                }
+                votes {
+                    id
+                    user {
+                        id
+                    }
+                }
             }
         }
     }
