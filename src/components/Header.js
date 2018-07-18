@@ -4,6 +4,10 @@ import { withRouter } from 'react-router';
 
 import { AUTH_TOKEN } from '../constants';
 
+const Divider = () => <div className="ml1">|</div>;
+
+const NavItem = props => <Link {...props} className="ml1 no-underline black" />;
+
 class Header extends Component {
     render() {
         const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -12,15 +16,13 @@ class Header extends Component {
             <div className="flex pa1 justify-between nowrap orange">
                 <div className="flex flex-fixed black">
                     <div className="fw7 mr1">Slacker News</div>
-                    <Link to="/" className="ml1 no-underline black">
-                        new
-                    </Link>
+                    <NavItem to="/">new</NavItem>
+                    <Divider />
+                    <NavItem to="/search">search</NavItem>
                     {authToken && (
                         <div className="flex">
-                            <div className="ml1">|</div>
-                            <Link to="/create" className="ml1 no-underline black">
-                                submit
-                            </Link>
+                            <Divider />
+                            <NavItem to="/create">submit</NavItem>
                         </div>
                     )}
                 </div>
@@ -36,9 +38,7 @@ class Header extends Component {
                             logout
                         </div>
                     ) : (
-                        <Link to="/login" className="ml1 no-underline black">
-                            login
-                        </Link>
+                        <NavItem to="/login">login</NavItem>
                     )}
                 </div>
             </div>
