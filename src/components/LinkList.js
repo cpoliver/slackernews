@@ -18,21 +18,16 @@ class LinkList extends Component {
     );
 
     render() {
-        if (this.props.feedQuery && this.props.feedQuery.loading) {
-            return <div>Loading</div>;
-        }
+        const { feedQuery } = this.props;
 
-        if (this.props.feedQuery && this.props.feedQuery.error) {
-            return <div>Error</div>;
-        }
+        if (feedQuery && feedQuery.loading) return <div>Loading</div>;
+        if (feedQuery && feedQuery.error) return <div>Error</div>;
 
-        const { links } = this.props.feedQuery.feed;
-
-        return <div>{links.map(this.renderLink)}</div>;
+        return <div>{feedQuery.feed.links.map(this.renderLink)}</div>;
     }
 }
 
-const FEED_QUERY = gql`
+export const FEED_QUERY = gql`
     query FeedQuery {
         feed {
             links {
