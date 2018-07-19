@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { LINKS_PER_PAGE } from '../constants';
 import { FEED_QUERY } from './LinkList';
 import Button from './Button';
 
@@ -17,13 +18,15 @@ class CreateLink extends Component {
         await this.props.postMutation({
             variables: { description, url },
             update: (store, { data: { post } }) => {
-                const data = store.readQuery({ query: FEED_QUERY });
+                const variables = { first: LINKS_PER_PAGE, skip: 0, orderBy: 'createdAt_DESC' };
+                const data = store.readQuery({ query: FEED_QUERY, variables });
                 data.feed.links.splice(0, 0, post);
-                store.writeQuery({ query: FEED_QUERY, data });
+                data.feed.links.pop();
+                store.writeQuery({ query: FEED_QUERY, data, variables });
             },
         });
 
-        this.props.history.push('/');
+        this.props.history.push('/new/1');
     };
 
     render() {

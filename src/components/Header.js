@@ -18,6 +18,8 @@ class Header extends Component {
                     <div className="fw7 mr1">Slacker News</div>
                     <NavItem to="/">new</NavItem>
                     <Divider />
+                    <NavItem to="/top">top</NavItem>
+                    <Divider />
                     <NavItem to="/search">search</NavItem>
                     {authToken && (
                         <div className="flex">
